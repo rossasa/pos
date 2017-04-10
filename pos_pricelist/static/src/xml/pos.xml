@@ -34,4 +34,12 @@
             </t>
         </t>
     </t>
+    <t t-extend="ProductScreenWidget">
+        <t t-jquery="div.selection-area" t-operation="append">
+            <div style="padding: 8px;text-align:left;float:left;width:100px">
+                <select id="price_list" tabindex="3">
+                </select>
+            </div>
+        </t>
+    </t>
 </templates>

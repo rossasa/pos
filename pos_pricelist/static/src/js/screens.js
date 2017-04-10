@@ -29,4 +29,44 @@ function pos_pricelist_screens(instance, module) {
             }
         }
     });
+
+    var _super_ProductScreenWidget = instance.point_of_sale.ProductScreenWidget.prototype
+    instance.point_of_sale.ProductScreenWidget = instance.point_of_sale.ProductScreenWidget.extend({
+        init: function() {
+            this._super.apply(this, arguments);
+        },
+        start:function(){
+            var self = this;
+            _super_ProductScreenWidget.start.call(this);
+            pos = self.pos;
+            selectedOrder = self.pos.get('selectedOrder');
+            var pricelist_list = $.map(pos.db.pricelist_by_id, function(value, index) {
+                return [value];
+            });
+            var new_options = [];
+            //new_options.push('<option value="">Selecionar Lista de Precios</option>\n');
+            if(pricelist_list.length > 0){
+                for(var i = 0, len = pricelist_list.length; i < len; i++){
+                    new_options.push('<option value="' + pricelist_list[i].id + '">' + pricelist_list[i].display_name + '</option>\n');
+                }
+                $('#price_list').html(new_options);
+                $('#price_list').selectedIndex = 0;
+            }
+
+            $('#price_list').on('change', function() {
+                //var partner_id = self.pos.get('selectedOrder').get_client() && parseInt(self.pos.get('selectedOrder').get_client().id);
+                value = parseInt($('#price_list').val()) || parseInt(this.get_pricelist());
+                var partner = self.pos.get('selectedOrder').get_client();
+                if(!partner){
+                    partner = self.pos.partners[0];
+                }
+                partner.property_product_pricelist[0] = value;
+                var orderLines = self.pos.get('selectedOrder').get('orderLines').models;
+                self.pos.get('selectedOrder').pos.pricelist_engine.update_products_ui(partner);
+                self.pos.get('selectedOrder').pos.pricelist_engine.update_ticket(partner, orderLines);
+                console.log("teste"+ value);
+
+            });
+        },
+    });
 }
