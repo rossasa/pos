@@ -511,10 +511,19 @@ function pos_pricelist_models(instance, module) {
                             ? rule['price_discount']
                             : 0.0));
                     if (rule['price_round']) {
-                        price = parseFloat(price.toFixed(
+                        if (rule['price_round'] < 1){
+                             price = parseFloat(price.toFixed(
                                 Math.ceil(Math.log(1.0 / rule['price_round'])
                                     / Math.log(10)))
-                        );
+                            );
+                        } else {
+                            price_tmp = Math.round(price/rule['price_round'],3)
+                            if (price_tmp < 1){
+                                price = (price/rule['price_round']).toFixed(3)*
+                            } else {
+                                price = price_tmp;
+                            }
+                        }
                     }
                     price += (rule['price_surcharge']
                         ? rule['price_surcharge']
