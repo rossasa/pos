@@ -519,7 +519,7 @@ function pos_pricelist_models(instance, module) {
                         } else {
                             price_tmp = Math.round(price/rule['price_round'],3)
                             if (price_tmp < 1){
-                                price = (price/rule['price_round']).toFixed(3)*
+                                price = (price/rule['price_round']).toFixed(3);
                             } else {
                                 price = price_tmp;
                             }
