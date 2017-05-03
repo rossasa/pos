@@ -517,9 +517,9 @@ function pos_pricelist_models(instance, module) {
                                     / Math.log(10)))
                             );
                         } else {
-                            price_tmp = Math.round(price/rule['price_round'],3)
+                            price_tmp = Math.round(price/rule['price_round'],3)*rule['price_round'];
                             if (price_tmp < 1){
-                                price = (price/rule['price_round']).toFixed(3);
+                                price = (price/rule['price_round']).toFixed(3)*rule['price_round'];
                             } else {
                                 price = price_tmp;
                             }
