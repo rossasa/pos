@@ -111,19 +111,27 @@ function pos_pricelist_models(instance, module) {
             if (self.get('orderLines').models !== undefined) {
                 orderlines = self.get('orderLines').models;
             }
+            var last_line = false;
             for (var i = 0; i < orderlines.length; i++) {
                 var _line = orderlines[i];
                 if (_line && _line.can_be_merged_with(line) &&
                     options.merge !== false) {
                     _line.merge(line);
                     found = true;
+                    last_line = _line;
                     break;
                 }
             }
             if (!found) {
                 this.get('orderLines').add(line);
             }
-            this.selectLine(this.getLastOrderline());
+            if (last_line){
+                this.selectLine(last_line);
+                $('.selected .info #quantity').addClass('mode-selected');
+            } else {
+                this.selectLine(this.getLastOrderline());
+                $('.selected .info #quantity').addClass('mode-selected');
+            }
         }
     });
 

@@ -17,7 +17,7 @@
 ******************************************************************************/
 function pos_pricelist_screens(instance, module) {
 
-    module.ClientListScreenWidget = module.ClientListScreenWidget.extend({
+    /*module.ClientListScreenWidget = module.ClientListScreenWidget.extend({
         save_changes: function () {
             this._super();
             if (this.has_client_changed()) {
@@ -28,7 +28,7 @@ function pos_pricelist_screens(instance, module) {
                 this.pos.pricelist_engine.update_ticket(partner, orderLines);
             }
         }
-    });
+    });*/
 
     var _super_ProductScreenWidget = instance.point_of_sale.ProductScreenWidget.prototype
     instance.point_of_sale.ProductScreenWidget = instance.point_of_sale.ProductScreenWidget.extend({
