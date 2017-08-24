@@ -111,19 +111,27 @@ function pos_pricelist_models(instance, module) {
             if (self.get('orderLines').models !== undefined) {
                 orderlines = self.get('orderLines').models;
             }
+            var last_line = false;
             for (var i = 0; i < orderlines.length; i++) {
                 var _line = orderlines[i];
                 if (_line && _line.can_be_merged_with(line) &&
                     options.merge !== false) {
                     _line.merge(line);
                     found = true;
+                    last_line = _line;
                     break;
                 }
             }
             if (!found) {
                 this.get('orderLines').add(line);
             }
-            this.selectLine(this.getLastOrderline());
+            if (last_line){
+                this.selectLine(last_line);
+                $('.selected .info #quantity').addClass('mode-selected');
+            } else {
+                this.selectLine(this.getLastOrderline());
+                $('.selected .info #quantity').addClass('mode-selected');
+            }
         }
     });
 
@@ -511,10 +519,19 @@ function pos_pricelist_models(instance, module) {
                             ? rule['price_discount']
                             : 0.0));
                     if (rule['price_round']) {
-                        price = parseFloat(price.toFixed(
+                        if (rule['price_round'] < 1){
+                             price = parseFloat(price.toFixed(
                                 Math.ceil(Math.log(1.0 / rule['price_round'])
                                     / Math.log(10)))
-                        );
+                            );
+                        } else {
+                            price_tmp = Math.round(price/rule['price_round'],3)*rule['price_round'];
+                            if (price_tmp < 1){
+                                price = (price/rule['price_round']).toFixed(3)*rule['price_round'];
+                            } else {
+                                price = price_tmp;
+                            }
+                        }
                     }
                     price += (rule['price_surcharge']
                         ? rule['price_surcharge']

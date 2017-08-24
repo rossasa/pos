@@ -24,6 +24,11 @@
                         </t>
                     </span>
                 </t>
+                <t t-if="product.default_code">
+                    <span class="code-tag">
+                        Codigo: <t t-esc="product.default_code"/>
+                    </span>
+                </t>
             </div>
         </t>
     </t>
@@ -32,6 +37,14 @@
             <t t-if="orderline.quantity != 1">
                 x<t t-esc="widget.format_pr(orderline.get_display_unit_price())"/>
             </t>
+        </t>
+    </t>
+    <t t-extend="ProductScreenWidget">
+        <t t-jquery="div.selection-area" t-operation="append">
+            <div style="padding: 8px;text-align:left;float:left;width:100px">
+                <select id="price_list" tabindex="3">
+                </select>
+            </div>
         </t>
     </t>
 </templates>
