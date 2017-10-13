@@ -604,9 +604,10 @@ function pos_pricelist_models(instance, module) {
                     $(product_ui).find('.price-tag').attr(
                         'data-toggle', 'tooltip'
                     );
+                    /* Commented to avoid dont show price tooltip
                     $(product_ui).find('.price-tag').tooltip(
                         {delay: {show: 50, hide: 100}}
-                    );
+                    );*/
                 }
             }
         },
