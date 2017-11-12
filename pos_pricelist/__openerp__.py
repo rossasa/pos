@@ -14,6 +14,7 @@
     'summary': 'Pricelist for Point of sale',
     'depends': [
         "point_of_sale",
+        "social_pos",
     ],
     'data': [
         "views/pos_pricelist_template.xml",
